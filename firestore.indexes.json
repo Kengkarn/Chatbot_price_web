@@ -1,0 +1,23 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "Disease",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "symptom",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "treatment",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "protection",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
