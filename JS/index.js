@@ -7,6 +7,22 @@ firebase.auth().onAuthStateChanged(function(user) {
     } 
   });
 
+//กรณีใส่ค่าแล้วกด Enter//
+var input = document.getElementById("InputEmail");
+input.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("btn_login").click();
+       }
+});
+var input_pass = document.getElementById("InputPassword");
+input_pass.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("btn_login").click();
+       }
+});
+
 function auth(){
     email = document.getElementById("InputEmail").value
     password = document.getElementById("InputPassword").value
