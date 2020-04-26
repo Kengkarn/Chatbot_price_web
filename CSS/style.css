@@ -2,7 +2,20 @@
 body{
     background-color: #efefef;
 }
-h1, div {
+input {
+  border: 2px solid #ccc;
+  border-radius: 4px;
+}
+a:link, a:visited {
+  color: (internal value);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+a:link:active, a:visited:active {
+  color: (internal value);
+}
+h1, div, li {
   font-family: 'Prompt', sans-serif;
 }
 ul {

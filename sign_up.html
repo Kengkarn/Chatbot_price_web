@@ -21,55 +21,34 @@
     <link href="CSS/style.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500&display=swap" rel="stylesheet">
     <!-- CSS -->
-    <title>Fill out Price Page</title>
+    <title>Sign up page</title>
 </head>
 
 <body>
-    <!-- navbar -->
-    <ul>
-        <li class="NavHeaderName">หน้าสำหรับกรอกราคาข้าวโพด</li>
-        <li><button onclick="logout()" class="btn btn-lg btn-danger btn-block buttonLogout">ออกจากระบบ</button> </li>
-        <li class="NavName" id="nav_name"></li>
-    </ul>
-    <!-- navbar -->
-    <div class="head_wel">
-        <h1 id="head_wel"></h1>
-        <h4 id="date"></h4>
-    </div>
-    <div class="container-header">
-        <div class="wrap-wel">
+    <div class="container-login">
+        <div class="wrap-login">
             <div class="container">
-                <label for="disabled">ชื่อ:</label> 
-                <input id="name" disabled>&nbsp;&nbsp;
-                <label for="disabled">นามสกุล:</label> 
-                <input id="surname" disabled><br>
-                <label for="disabled">ตำบล:</label> 
-                <input id="sub_district" disabled>&nbsp;&nbsp;
-                <label for="disabled">อำเภอ:</label> 
-                <input id="district" disabled><br>
-                <label for="disabled">จังหวัด:</label> 
-                <input id="province" disabled>&nbsp;&nbsp;
-                <label for="disabled">เบอร์โทร:</label> 
-                <input id="phone_num" disabled><br>
-                <div id="selling_place_div">
-                    <div id="corn_type_div"></div>
-                </div>
+                <h1 align="center">สมัครสมาชิก</h1>
+            </div>
+            <div class="container">
+                <label for="exampleInputEmail1">อีเมล</label>
+                <input type="email" id="InputEmail_regist" aria-describedby="emailHelp" placeholder="กรุณากรอกอีเมล">&nbsp;&nbsp;
+                <label for="exampleInputPassword1">รหัสผ่าน</label>
+                <input type="password" id="InputPassword_regist" placeholder="กรุณากรอกรหัสผ่าน"><br>
+                
                 <div class="btn_container" style="text-align: center;">
-                    <button type="submit" class="btn btn-primary" onclick="send_price()">ส่งราคา</button>
-                  </div>
+                    <button type="submit" class="btn btn-primary" onclick="handleSignUp()">สมัคร</button>
+                </div>
             </div>
         </div>
     </div>
-
-
 </body>
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-auth.js"></script>
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
-           https://firebase.google.com/docs/web/setup#available-libraries -->
+   https://firebase.google.com/docs/web/setup#available-libraries -->
 
 <script>
     // Your web app's Firebase configuration
@@ -85,7 +64,5 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 </script>
-<script src="/JS/home.js"></script>
-<script src="/JS/app.js"></script>
 
 </html>
