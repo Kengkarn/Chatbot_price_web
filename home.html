@@ -34,10 +34,30 @@
     <!-- navbar -->
     <div class="head_wel">
         <h1 id="head_wel"></h1>
+        <h4 id="date"></h4>
     </div>
     <div class="container-header">
         <div class="wrap-wel">
-            <div class="container"></div>
+            <div class="container">
+                <label for="disabled">ชื่อ:</label> 
+                <input id="name" disabled>&nbsp;&nbsp;
+                <label for="disabled">นามสกุล:</label> 
+                <input id="surname" disabled><br>
+                <label for="disabled">ตำบล:</label> 
+                <input id="sub_district" disabled>&nbsp;&nbsp;
+                <label for="disabled">อำเภอ:</label> 
+                <input id="district" disabled><br>
+                <label for="disabled">จังหวัด:</label> 
+                <input id="province" disabled>&nbsp;&nbsp;
+                <label for="disabled">เบอร์โทร:</label> 
+                <input id="phone_num" disabled><br>
+                <div id="selling_place_div">
+                    <div id="corn_type_div"></div>
+                </div>
+                <div class="btn_container" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary" onclick="send_price()">ส่งราคา</button>
+                  </div>
+            </div>
         </div>
     </div>
 

@@ -1,5 +1,5 @@
 function logout(){
-  localStorage.removeItem("email");
+  localStorage.clear();
   firebase.auth().signOut().then(function() {
       window.location.replace("index.html");
     });

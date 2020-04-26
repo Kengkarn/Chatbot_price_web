@@ -2,7 +2,7 @@
 body{
     background-color: #efefef;
 }
-h1 {
+h1, div {
   font-family: 'Prompt', sans-serif;
 }
 ul {
@@ -85,7 +85,7 @@ ul {
 }
 .head_wel {
   display: block;
-  padding: 5% 5% 2% 5%;
+  padding: 16px 5% 0% 5%;
 }
 .wrap-wel {
   width: 100%;
@@ -94,7 +94,7 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 5% 10% 10% 10%;
+  padding: 5% 10% 2% 10%;
 }
 .container-header {
   width: 100%;
@@ -107,4 +107,8 @@ ul {
   justify-content: center;
   align-items: center;
   padding: 15px;
+}
+.btn_container {
+  width: 100%;
+  padding: 2% 2% 2% 2%;
 }
