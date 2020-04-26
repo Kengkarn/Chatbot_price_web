@@ -30,14 +30,28 @@
             <div class="container">
                 <h1 align="center">สมัครสมาชิก</h1>
             </div>
-            <div class="container">
-                <label for="exampleInputEmail1">อีเมล</label>
-                <input type="email" id="InputEmail_regist" aria-describedby="emailHelp" placeholder="กรุณากรอกอีเมล">&nbsp;&nbsp;
-                <label for="exampleInputPassword1">รหัสผ่าน</label>
-                <input type="password" id="InputPassword_regist" placeholder="กรุณากรอกรหัสผ่าน"><br>
-                
+            <div class="container" style="text-align: center;">
+                <label for="exampleInputEmail1">อีเมล:</label>
+                <input type="email" id="InputEmail_regist" aria-describedby="emailHelp">&nbsp;&nbsp;
+                <label for="exampleInputPassword1">รหัสผ่าน:</label>
+                <input type="password" id="InputPassword_regist"><br>
+                <label for="disabled">ชื่อ:</label> 
+                <input id="name_regist">&nbsp;&nbsp;
+                <label for="disabled">นามสกุล:</label> 
+                <input id="surname_regist"><br>
+                <label for="disabled">ตำบล:</label> 
+                <input id="sub_district_regist">&nbsp;&nbsp;
+                <label for="disabled">อำเภอ:</label> 
+                <input id="district_regist"><br>
+                <label for="disabled">จังหวัด:</label> 
+                <input id="province_regist">&nbsp;&nbsp;
+                <label for="disabled">เบอร์โทร:</label> 
+                <input id="phone_num_regist"><br>
                 <div class="btn_container" style="text-align: center;">
-                    <button type="submit" class="btn btn-primary" onclick="handleSignUp()">สมัคร</button>
+                    <button type="submit" class="btn btn-success" onclick="handleSignUp()">สมัคร</button>
+                </div>
+                <div class="btn_container" style="text-align: center;">
+                    <button type="submit" class="btn btn-primary" onclick="backTologin()">เข้าสู่ระบบ</button>
                 </div>
             </div>
         </div>
@@ -64,5 +78,5 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 </script>
-
+<script src="/JS/sign_up.js"></script>
 </html>
