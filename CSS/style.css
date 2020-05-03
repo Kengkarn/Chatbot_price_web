@@ -127,3 +127,11 @@ ul {
   width: 100%;
   padding: 2% 2% 2% 2%;
 }
+.left {
+  left: auto;
+  /* text-align: right; */
+}
+.right {
+  right: auto;
+  /* text-align: left; */
+}
