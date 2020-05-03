@@ -2,6 +2,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         var user = firebase.auth().currentUser;
         if (user != null) {
+            console.log("user != null");
             window.location.replace("home.html");
         }
     } 

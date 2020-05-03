@@ -63,3 +63,67 @@ function selling_select() {
     }
 }
 
+function handleSignUp() {
+    var db = firebase.firestore();
+    var email = document.getElementById('InputEmail_regist').value;
+    var password = document.getElementById('InputPassword_regist').value;
+    var name = document.getElementById("name_regist").value;
+    var surname = document.getElementById("surname_regist").value;
+    var sub_district = document.getElementById("sub_district_regist").value;
+    var district = document.getElementById("district_regist").value;
+    var province = document.getElementById("province_regist").value;
+    var phone = document.getElementById("phone_num_regist").value;
+    var selling_val = document.getElementById("sell_place_num").value;
+    if (email.length < 4) {
+        alert('กรุณากรอกอีเมล');
+        return;
+    }
+    if (password.length < 4) {
+        alert('กรุณากรอกรหัสผ่าน');
+        return;
+    }
+    // Create user with email and pass.
+    // [START createwithemail]
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+            alert('รหัสผ่านอ่อนแอเกินไป ต้องมีอย่างน้อย 6 ตัวอักษร');
+        } else {
+            alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+    });
+    // [END createwithemail]
+    console.log(name);
+    console.log(sub_district);
+    localStorage.setItem("email", email);
+    // กรณีเพิ่ม 2 ร้าน
+    if (selling_val == 2) {
+        var selling1 = document.getElementById("selling_1").value;
+        var selling2 = document.getElementById("selling_2").value;
+        db.collection("User").add({
+            email: `${email}`,
+            name: `${name}`,
+            surname: `${surname}`,
+            sub_district: `${sub_district}`,
+            district: `${district}`,
+            province: `${province}`,
+            phone: `${phone}`,
+            selling_place: new Array(selling1, selling2),
+            corn_type: new Array("ข้าวโพดเลี้ยงสัตว์"),
+            status: 0
+        }).then(function () {
+                console.log("Document successfully written!");
+                alert('การสมัครสำเร็จ!');
+                window.location.replace("index.html");
+            })
+            .catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
+    }
+}
+
