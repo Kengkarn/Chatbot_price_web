@@ -63,6 +63,14 @@ function selling_select() {
     }
 }
 
+function checkbox_corn_type() {
+    var checkBox_maize = document.getElementById("maize_corn");
+    if (checkBox_maize.checked == true) {
+        console.log("check_maize");
+        localStorage.setItem("maize", "ข้าวโพดเลี้ยงสัตว์");
+    }
+}
+
 function handleSignUp() {
     var db = firebase.firestore();
     var email = document.getElementById('InputEmail_regist').value;
@@ -114,7 +122,7 @@ function handleSignUp() {
             province: `${province}`,
             phone: `${phone}`,
             selling_place: new Array(selling1, selling2),
-            corn_type: new Array("ข้าวโพดเลี้ยงสัตว์"),
+            corn_type: new Array(localStorage.getItem("maize")),
             status: 0
         }).then(function () {
                 console.log("Document successfully written!");

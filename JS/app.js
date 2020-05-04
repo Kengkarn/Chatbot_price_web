@@ -6,6 +6,8 @@ document.getElementById("date").innerHTML = d;
 db.collection('User').get().then((snapshot) => {
     snapshot.forEach(doc => {
         if (email === doc.data().email) {
+            localStorage.setItem("doc_id", doc.id);
+            console.log(localStorage.getItem("doc_id"));
             localStorage.setItem("selling_place_len", doc.data().selling_place.length);
             localStorage.setItem("corn_type_len", doc.data().corn_type.length);
             console.log(doc.data().name);
@@ -71,13 +73,27 @@ db.collection('User').get().then((snapshot) => {
                     }
                     //กรณีที่มีประเภทข้าวโพด 1 ประเภท
                     else if (doc.data().corn_type.length === 1) {
-                        if (j === 0) {
+                        if (j === 0 && doc.data().status === 0) {
                             output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
+                            count++;
+                        }
+                        else if (j === 0 && doc.data().status !== 0) {
+                            output_corn_type = `
+                            <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
+                            <label for="corn_type">${doc.data().corn_type[j]}:</label> 
+                            <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="`+ doc.data().each_price[i] +`">
+                            <label for="unit">บาท/กิโลกรัม</label><br>
+                            `;
+                            if (doc.data().selling_place.length - 1 === i) {
+                                output_corn_type += `
+                                <label for="show_date">วันที่อัปเดตล่าสุด: ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}</label><br>
+                                `;
+                            }
                             count++;
                         }
                     }
@@ -87,13 +103,19 @@ db.collection('User').get().then((snapshot) => {
         }
     });
 })
+
+
 function send_price() {
+    var db = firebase.firestore();
+    var update_status = db.collection('User').doc(localStorage.getItem("doc_id").toString());
     var len_selling = localStorage.getItem("selling_place_len");
     var len_corn_type = localStorage.getItem("corn_type_len");
     var count = 1;
     var sum_value1 = 0;
     var sum_value2 = 0;
     var sum_value3 = 0;
+    console.log(typeof localStorage.getItem("doc_id").toString());
+    var array_price = new Array();
     for (var i = 0; i < len_selling; i++) {
         if (len_corn_type == 3) {
             var keep_param1 = "corn_type_1" + count;
@@ -130,22 +152,45 @@ function send_price() {
             var value_corn1 = document.getElementById(keep_param1).value;
             var value_corn1_num = parseFloat(value_corn1);
             sum_value1 += value_corn1_num;
+            if (len_selling == 2) {
+                array_price.push(value_corn1_num);
+            }
         }
     }
+    console.log(array_price);
+    update_status.update({
+        status: 1,
+        each_price: [array_price[0], array_price[1]],
+        date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+    }).then(function() {
+        console.log("Document successfully updated!");
+        alert("การเพิ่มข้อมูลสำเร็จ!");
+        window.location.replace("home.html");
+    })
+    .catch(function(error) {
+        // The document probably doesn't exist.
+        console.error("Error updating document: ", error);
+    });
     var selling_place_num = parseFloat(len_selling);
     if (len_corn_type == 3) {
-        console.log("Date update: " + `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`);
+        console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
         console.log("corn_type_1: " + sum_value1 / selling_place_num);
         console.log("corn_type_2: " + sum_value2 / selling_place_num);
         console.log("corn_type_3: " + sum_value3 / selling_place_num);
+        alert("การเพิ่มข้อมูลสำเร็จ!");
+        window.location.replace("home.html");
     }
     else if (len_corn_type == 2) {
-        console.log("Date update: " + `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`);
+        console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
         console.log("corn_type_1: " + sum_value1 / selling_place_num);
         console.log("corn_type_2: " + sum_value2 / selling_place_num);
+        alert("การเพิ่มข้อมูลสำเร็จ!");
+        window.location.replace("home.html");
     }
     else if (len_corn_type == 1) {
-        console.log("Date update: " + `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`);
+        console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
         console.log("corn_type_1: " + sum_value1 / selling_place_num);
+        // alert("การเพิ่มข้อมูลสำเร็จ!");
+        // window.location.replace("home.html");
     }
 }
