@@ -8,8 +8,8 @@ db.collection('User').get().then((snapshot) => {
         if (email === doc.data().email) {
             localStorage.setItem("doc_id", doc.id);
             console.log(localStorage.getItem("doc_id"));
-            localStorage.setItem("selling_place_len", doc.data().selling_place.length);
-            localStorage.setItem("corn_type_len", doc.data().corn_type.length);
+            // localStorage.setItem("selling_place_len", doc.data().selling_place.length);
+            // localStorage.setItem("corn_type_len", doc.data().corn_type.length);
             console.log(doc.data().name);
             head_wel.innerHTML = "สวัสดีคุณ, " + doc.data().name;
             document.getElementById("name").value = doc.data().name;
@@ -86,12 +86,12 @@ db.collection('User').get().then((snapshot) => {
                             output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
-                            <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="`+ doc.data().each_price[i] +`">
+                            <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="` + doc.data().each_price[i] + `">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                             `;
                             if (doc.data().selling_place.length - 1 === i) {
                                 output_corn_type += `
-                                <label for="show_date">วันที่อัปเดตล่าสุด: ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}</label><br>
+                                <label for="show_date">วันที่อัปเดตล่าสุด: ${doc.data().date_update}</label><br>
                                 `;
                             }
                             count++;
@@ -162,15 +162,15 @@ function send_price() {
         status: 1,
         each_price: [array_price[0], array_price[1]],
         date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
-    }).then(function() {
+    }).then(function () {
         console.log("Document successfully updated!");
-        alert("การเพิ่มข้อมูลสำเร็จ!");
-        window.location.replace("home.html");
+        // alert("การเพิ่มข้อมูลสำเร็จ!");
+        // window.location.replace("home.html");
     })
-    .catch(function(error) {
-        // The document probably doesn't exist.
-        console.error("Error updating document: ", error);
-    });
+        .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
     var selling_place_num = parseFloat(len_selling);
     if (len_corn_type == 3) {
         console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
@@ -193,4 +193,19 @@ function send_price() {
         // alert("การเพิ่มข้อมูลสำเร็จ!");
         // window.location.replace("home.html");
     }
+}
+
+function send_test() {
+    var selling1 = document.getElementById("selling_1").value;
+    var db = firebase.firestore();
+    const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
+    db.collection("User").doc(localStorage.getItem("doc_id").toString()).update({
+        selling_place:  arrayUnion(selling1)
+    }).then(function () {
+                console.log("Document successfully written!");
+                alert('การสมัครสำเร็จ!');
+            })
+            .catch(function (error) {
+                console.error("Error writing document: ", error);
+            });
 }

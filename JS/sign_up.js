@@ -81,7 +81,7 @@ function handleSignUp() {
     var district = document.getElementById("district_regist").value;
     var province = document.getElementById("province_regist").value;
     var phone = document.getElementById("phone_num_regist").value;
-    var selling_val = document.getElementById("sell_place_num").value;
+    // var selling_val = document.getElementById("sell_place_num").value;
     if (email.length < 4) {
         alert('กรุณากรอกอีเมล');
         return;
@@ -109,29 +109,24 @@ function handleSignUp() {
     console.log(name);
     console.log(sub_district);
     localStorage.setItem("email", email);
-    // กรณีเพิ่ม 2 ร้าน
-    if (selling_val == 2) {
-        var selling1 = document.getElementById("selling_1").value;
-        var selling2 = document.getElementById("selling_2").value;
-        db.collection("User").add({
-            email: `${email}`,
-            name: `${name}`,
-            surname: `${surname}`,
-            sub_district: `${sub_district}`,
-            district: `${district}`,
-            province: `${province}`,
-            phone: `${phone}`,
-            selling_place: new Array(selling1, selling2),
-            corn_type: new Array(localStorage.getItem("maize")),
-            status: 0
-        }).then(function () {
-                console.log("Document successfully written!");
-                alert('การสมัครสำเร็จ!');
-                window.location.replace("index.html");
-            })
-            .catch(function (error) {
-                console.error("Error writing document: ", error);
-            });
-    }
+    db.collection("User").add({
+        email: `${email}`,
+        name: `${name}`,
+        surname: `${surname}`,
+        sub_district: `${sub_district}`,
+        district: `${district}`,
+        province: `${province}`,
+        phone: `${phone}`,
+        // selling_place: new Array(selling1, selling2),
+        // corn_type: new Array(localStorage.getItem("maize")),
+        status: 0
+    }).then(function () {
+        console.log("Document successfully written!");
+        alert('การสมัครสำเร็จ!');
+        window.location.replace("index.html");
+    })
+        .catch(function (error) {
+            console.error("Error writing document: ", error);
+        });
 }
 
