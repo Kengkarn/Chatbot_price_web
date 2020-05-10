@@ -63,14 +63,6 @@ function selling_select() {
     }
 }
 
-function checkbox_corn_type() {
-    var checkBox_maize = document.getElementById("maize_corn");
-    if (checkBox_maize.checked == true) {
-        console.log("check_maize");
-        localStorage.setItem("maize", "ข้าวโพดเลี้ยงสัตว์");
-    }
-}
-
 function handleSignUp() {
     var db = firebase.firestore();
     var email = document.getElementById('InputEmail_regist').value;

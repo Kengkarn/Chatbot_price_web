@@ -41,27 +41,78 @@
             <div class="container">
                 <label for="disabled">ชื่อ:</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input id="name" disabled>&nbsp;&nbsp;
-                <label for="disabled">นามสกุล:</label> 
+                <label for="disabled">นามสกุล:</label>
                 <input id="surname" disabled><br>
                 <label for="disabled">ตำบล:</label>&nbsp;&nbsp;
                 <input id="sub_district" disabled>&nbsp;&nbsp;
                 <label for="disabled">อำเภอ:</label> &nbsp;
                 <input id="district" disabled><br>
-                <label for="disabled">จังหวัด:</label> 
+                <label for="disabled">จังหวัด:</label>
                 <input id="province" disabled>&nbsp;&nbsp;
-                <label for="disabled">เบอร์โทร:</label> 
+                <label for="disabled">เบอร์โทร:</label>
                 <input id="phone_num" disabled><br>
                 <div id="selling_place_div">
                     <div id="corn_type_div"></div>
                 </div>
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <span class="close" style="width: fit-content; margin-left: auto;">&times;</span>
+                        <!-- ส่วนของการเลือกร้านค้า -->
+                        <!-- <div class="form-group">
+                            <div class="col-sm-3" align="right"> จำนวนร้านค้า : </div>
+                            <div class="col-sm-6" align="left">
+                                <select id="sell_place_num" onchange="selling_select()">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div> -->
+
+                        <div class="form-group">
+                            <div class="col-sm-3" align="right"></div>
+                            <center>
+                                <div class="col-sm-6" align="left" id="selling_input">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td style="text-align: end;">
+                                                <div style="width: 112px;"><label for="corn_type_name">ชื่อร้าน :
+                                                    </label></div>
+                                            </td>
+                                            <td class="col"><input type="text" id="selling_name"
+                                                    placeholder="กรุณากรอกชื่อร้าน" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td><label for="corn_type_name">ประเภทข้าวโพด : </label></td>
+                                            <td align="center"><input type="checkbox" id="maize_corn"
+                                                    onclick="checkbox_corn_type()">
+                                                ข้าวโพดเลี้ยงสัตว์
+                                                <input type="checkbox" id="sweet_corn" onclick="checkbox_corn_type()">
+                                                ข้าวโพดหวาน
+                                                <input type="checkbox" id="baby_corn" onclick="checkbox_corn_type()">
+                                                ข้าวโพดฝักอ่อน</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="btn_container" style="text-align: center; padding: 2% 2% 0% 2%;">
+                                    <button id="add_store_2db" type="submit" class="btn btn-success">ตกลง</button>
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
                 <div class="btn_container" style="text-align: center;">
-                    <button id="btn_send_price" type="submit" class="btn btn-primary" onclick="add_store()">เพิ่มร้าน</button>
-                  </div>
+                    <button id="btn_add_store" type="submit" class="btn btn-primary">เพิ่มร้าน</button>
+                </div>
             </div>
         </div>
     </div>
 
-  </div>
+    </div>
 
 </body>
 <!-- The core Firebase JS SDK is always required and must be listed first -->

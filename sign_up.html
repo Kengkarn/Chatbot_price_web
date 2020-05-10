@@ -91,43 +91,13 @@
                             <input id="phone_num_regist" placeholder="เบอร์โทร" class="form-control">
                         </div>
                     </div>
-                    <!-- ส่วนของการเลือกร้านค้า
-                    <div class="form-group">
-                        <div class="col-sm-3" align="right"> จำนวนร้านค้า : </div>
-                        <div class="col-sm-6" align="left">
-                            <select id="sell_place_num" onchange="selling_select()">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-3" align="right"></div>
-                        <div class="col-sm-6" align="left" id="selling_input">
-                            <label for="corn_type_name">ร้านที่1 : </label>
-                            <input type="text" id="selling_1" placeholder="กรุณากรอกชื่อร้าน" class="form-control"><br>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-3" align="right">ประเภทข้าวโพด: </div>
-                        <div class="col-sm-7" align="left">
-                            <input type="checkbox" id="maize_corn" onclick="checkbox_corn_type()"> ข้าวโพดเลี้ยงสัตว์
-                            &nbsp;&nbsp;
-                            <input type="checkbox" id="sweet_corn" onclick="checkbox_corn_type()"> ข้าวโพดหวาน
-                            &nbsp;&nbsp;
-                            <input type="checkbox" id="baby_corn" onclick="checkbox_corn_type()"> ข้าวโพดฝักอ่อน
-                        </div>
-                    </div> -->
 
                     <div class="btn_container" style="text-align: center;">
-                        <button type="submit" class="btn btn-success" onclick="handleSignUp()">สมัคร</button>
+                        <button type="submit" class="btn btn-primary" id="btn_regist" onclick="handleSignUp()">สมัคร</button>
                     </div>
-                    <div class="btn_container" style="text-align: center;">
-                        <button type="submit" class="btn btn-primary" onclick="backTologin()">เข้าสู่ระบบ</button>
+                    <div style="text-align: center;">
+                        <!-- <button type="submit" class="btn btn-primary" onclick="backTologin()">เข้าสู่ระบบ</button> -->
+                        <a onclick="backTologin()">เข้าสู่ระบบ</a>
                     </div>
                 </div>
             </div>

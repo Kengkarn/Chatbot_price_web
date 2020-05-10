@@ -104,6 +104,31 @@ db.collection('User').get().then((snapshot) => {
     });
 })
 
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("btn_add_store");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function () {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 function send_price() {
     var db = firebase.firestore();
@@ -195,17 +220,48 @@ function send_price() {
     }
 }
 
+function checkbox_corn_type() {
+    var checkBox_maize = document.getElementById("maize_corn");
+    var checkBox_sweet = document.getElementById("sweet_corn");
+    var checkBox_baby = document.getElementById("baby_corn");
+    var checked_box = 0;
+    localStorage.setItem("checked_box", checked_box);
+    console.log(localStorage.getItem("checked_box"));
+    console.log("checkBox_maize "+ checkBox_maize.checked);
+    console.log("check_sweet "+ checkBox_sweet.checked);
+    console.log("check_baby "+ checkBox_baby.checked);
+    if (checkBox_maize.checked == true) {
+        console.log("check_maize");
+        localStorage.setItem("maize", "ข้าวโพดเลี้ยงสัตว์");
+        checked_box = parseInt(localStorage.getItem("checked_box")) + 1;
+        console.log("เข้าเงื่อนไขข้าวโพดเลี้ยงสัตว์: "+ checked_box);
+        localStorage.setItem("checked_box", checked_box);
+    }
+    if (checkBox_sweet.checked == true) {
+        console.log("check_sweet");
+        localStorage.setItem("sweet", "ข้าวโพดหวาน");
+        checked_box = localStorage.getItem("checked_box") + 1;
+        localStorage.setItem("checked_box", checked_box);
+    }
+    if (checkBox_baby.checked == true) {
+        console.log("check_baby");
+        localStorage.setItem("baby", "ข้าวโพดฝักอ่อน");
+        checked_box = localStorage.getItem("checked_box") + 1;
+        localStorage.setItem("checked_box", checked_box++);
+    }
+}
+
 function send_test() {
     var selling1 = document.getElementById("selling_1").value;
     var db = firebase.firestore();
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
     db.collection("User").doc(localStorage.getItem("doc_id").toString()).update({
-        selling_place:  arrayUnion(selling1)
+        selling_place: arrayUnion(selling1)
     }).then(function () {
-                console.log("Document successfully written!");
-                alert('การสมัครสำเร็จ!');
-            })
-            .catch(function (error) {
-                console.error("Error writing document: ", error);
-            });
+        console.log("Document successfully written!");
+        alert('การสมัครสำเร็จ!');
+    })
+        .catch(function (error) {
+            console.error("Error writing document: ", error);
+        });
 }
