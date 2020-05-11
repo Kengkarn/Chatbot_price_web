@@ -16,6 +16,27 @@ db.collection('User').get().then((snapshot) => {
             else if (th_province == "พิษณุโลก") {
                 localStorage.setItem("province", "Pitsanuloak");
             }
+            else if (th_province == "กรุงเทพ" || th_province == "กรุงเทพมหานคร" || th_province == "กรุงเทพฯ") {
+                localStorage.setItem("province", "Bangkok");
+            }
+            else if (th_province == "ลำพูน") {
+                localStorage.setItem("province", "Lumpoon");
+            }
+            else if (th_province == "ลำปาง") {
+                localStorage.setItem("province", "Lumpang");
+            }
+            else if (th_province == "นครราชศรีมา") {
+                localStorage.setItem("province", "Koraj");
+            }
+            else if (th_province == "แพร่") {
+                localStorage.setItem("province", "Phrae");
+            }
+            else if (th_province == "เชียงราย") {
+                localStorage.setItem("province", "Chianrai");
+            }
+            else if (th_province == "นครสวรรค์") {
+                localStorage.setItem("province", "Nakhonsawan");
+            }
             localStorage.setItem("doc_id", doc.id);
             console.log(localStorage.getItem("doc_id"));
             console.log(doc.data().name);
@@ -278,49 +299,33 @@ function add_store_2db(name) {
                 });
         }
     })
-    user_doc_id.get().then((snapshot) => {
-        th_province = snapshot.data().province;
-        if (th_province == "เพชรบูรณ์") {
-            localStorage.setItem("province", "Petchaboon");
-        }
-        else if (th_province == "น่าน") {
-            localStorage.setItem("province", "Narn");
-        }
-        else if (th_province == "พิษณุโลก") {
-            localStorage.setItem("province", "Pitsanuloak");
-        }
-
-
+    user_doc_id.update({
+        check_first: 1,
+        date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
     }).then(function () {
-        user_doc_id.update({
-            check_first: 1,
-            date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+        console.log("Document successfully updated!");
+        console.log(localStorage.getItem("province"));
+        db.collection("Price").doc(localStorage.getItem("province").toString()).update({
+            arr_selling: arrayUnion(name_selling),
+            corn_type: values
         }).then(function () {
             console.log("Document successfully updated!");
-            console.log(localStorage.getItem("province"));
-            db.collection("Price").doc(localStorage.getItem("province").toString()).update({
-                arr_selling: arrayUnion(name_selling),
+            user_doc_id.update({
+                selling_place: arrayUnion(name_selling),
                 corn_type: values
             }).then(function () {
-                console.log("Document successfully updated!");
-                user_doc_id.update({
-                    selling_place: arrayUnion(name_selling),
-                    corn_type: values
-                }).then(function () {
-                    alert("การเพิ่มร้านสำเร็จ!");
-                    window.location.replace("home.html");
-                })
-            }).catch(function (error) {
-                // The document probably doesn't exist.
-                console.error("Error updating document: ", error);
-            });
-        })
-            .catch(function (error) {
-                // The document probably doesn't exist.
-                console.error("Error updating document: ", error);
-            });
-
+                alert("การเพิ่มร้านสำเร็จ!");
+                window.location.replace("home.html");
+            })
+        }).catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
     })
+        .catch(function (error) {
+            // The document probably doesn't exist.
+            console.error("Error updating document: ", error);
+        });
 
 
 }
