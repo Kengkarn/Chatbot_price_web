@@ -9,33 +9,43 @@ db.collection('User').get().then((snapshot) => {
             th_province = doc.data().province;
             if (th_province == "เพชรบูรณ์") {
                 localStorage.setItem("province", "Petchaboon");
+                localStorage.setItem("th_province", "เพชรบูรณ์");
             }
             else if (th_province == "น่าน") {
                 localStorage.setItem("province", "Narn");
+                localStorage.setItem("th_province", "น่าน");
             }
             else if (th_province == "พิษณุโลก") {
                 localStorage.setItem("province", "Pitsanuloak");
+                localStorage.setItem("th_province", "พิษณุโลก");
             }
             else if (th_province == "กรุงเทพ" || th_province == "กรุงเทพมหานคร" || th_province == "กรุงเทพฯ") {
                 localStorage.setItem("province", "Bangkok");
+                localStorage.setItem("th_province", "กรุงเทพมหานคร");
             }
             else if (th_province == "ลำพูน") {
                 localStorage.setItem("province", "Lumpoon");
+                localStorage.setItem("th_province", "ลำพูน");
             }
             else if (th_province == "ลำปาง") {
                 localStorage.setItem("province", "Lumpang");
+                localStorage.setItem("th_province", "ลำปาง");
             }
             else if (th_province == "นครราชศรีมา") {
                 localStorage.setItem("province", "Koraj");
+                localStorage.setItem("th_province", "นครราชศรีมา");
             }
             else if (th_province == "แพร่") {
                 localStorage.setItem("province", "Phrae");
+                localStorage.setItem("th_province", "แพร่");
             }
             else if (th_province == "เชียงราย") {
                 localStorage.setItem("province", "Chianrai");
+                localStorage.setItem("th_province", "เชียงราย");
             }
             else if (th_province == "นครสวรรค์") {
                 localStorage.setItem("province", "Nakhonsawan");
+                localStorage.setItem("th_province", "นครสวรรค์");
             }
             localStorage.setItem("doc_id", doc.id);
             console.log(localStorage.getItem("doc_id"));
@@ -291,6 +301,7 @@ function add_store_2db(name) {
             db.collection("Price").doc(localStorage.getItem("province").toString()).set({
                 arr_selling: [],
                 price_data: { maize_corn: 0, sweet_corn: 0, baby_corn: 0 },
+                province: localStorage.getItem("th_province")
             }).then(function () {
                 console.log("Document successfully written!");
             })
@@ -298,34 +309,37 @@ function add_store_2db(name) {
                     console.error("Error writing document: ", error);
                 });
         }
-    })
-    user_doc_id.update({
-        check_first: 1,
-        date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+
     }).then(function () {
-        console.log("Document successfully updated!");
-        console.log(localStorage.getItem("province"));
-        db.collection("Price").doc(localStorage.getItem("province").toString()).update({
-            arr_selling: arrayUnion(name_selling),
-            corn_type: values
+        user_doc_id.update({
+            check_first: 1,
+            date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
         }).then(function () {
             console.log("Document successfully updated!");
-            user_doc_id.update({
-                selling_place: arrayUnion(name_selling),
+            console.log(localStorage.getItem("province"));
+            db.collection("Price").doc(localStorage.getItem("province").toString()).update({
+                arr_selling: arrayUnion(name_selling),
                 corn_type: values
             }).then(function () {
-                alert("การเพิ่มร้านสำเร็จ!");
-                window.location.replace("home.html");
-            })
-        }).catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-        });
+                console.log("Document successfully updated!");
+                user_doc_id.update({
+                    selling_place: arrayUnion(name_selling),
+                    corn_type: values
+                }).then(function () {
+                    alert("การเพิ่มร้านสำเร็จ!");
+                    window.location.replace("home.html");
+                })
+            }).catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+        })
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
     })
-        .catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-        });
+
 
 
 }
