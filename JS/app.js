@@ -47,6 +47,7 @@ db.collection('User').get().then((snapshot) => {
                 localStorage.setItem("province", "Nakhonsawan");
                 localStorage.setItem("th_province", "นครสวรรค์");
             }
+            console.log(localStorage.getItem("province"));
             localStorage.setItem("doc_id", doc.id);
             console.log(localStorage.getItem("doc_id"));
             console.log(doc.data().name);
