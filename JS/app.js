@@ -47,6 +47,9 @@ db.collection('User').get().then((snapshot) => {
                 localStorage.setItem("province", "Nakhonsawan");
                 localStorage.setItem("th_province", "นครสวรรค์");
             }
+            else {
+                localStorage.setItem("privince", "other");
+            }
             console.log(localStorage.getItem("province"));
             localStorage.setItem("doc_id", doc.id);
             console.log(localStorage.getItem("doc_id"));
@@ -298,10 +301,10 @@ function add_store_2db(name) {
             check_1.push(0)
         }
     }).then(function () {
-        if (check_1[0] == 0) {
+        if (check_1[0] == 0 && localStorage.getItem("province") !== "other") {
             db.collection("Price").doc(localStorage.getItem("province").toString()).set({
                 arr_selling: [],
-                price_data: { avg_price : 0 },
+                price_data: { avg_price: 0 },
                 province: localStorage.getItem("th_province")
             }).then(function () {
                 console.log("Document successfully written!");
@@ -309,6 +312,9 @@ function add_store_2db(name) {
                 .catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
+        } else if (localStorage.getItem("province") == "other") {
+            alert("ขออภัย, ไม่มีจังหวัดนี้ในระบบ");
+            window.location.replace("home.html");
         }
 
     }).then(function () {
