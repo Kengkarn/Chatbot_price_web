@@ -263,9 +263,9 @@ function send_price() {
     else if (len_corn_type == 1) {
         console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
         console.log("corn_type_1: " + sum_value1 / selling_place_num)
-        //กรณีที่เป็นข้าวโพดเลี้ยงสัตว์
+        //กรณีที่เป็นข้าวโพด 1 ประเภท
         db.collection("Price").doc(localStorage.getItem("province").toString()).update({
-            price_data: { maize_corn: (sum_value1 / selling_place_num) }
+            price_data: { avg_price: (sum_value1 / selling_place_num) }
         })
 
         // alert("การเพิ่มข้อมูลสำเร็จ!");
@@ -301,7 +301,7 @@ function add_store_2db(name) {
         if (check_1[0] == 0) {
             db.collection("Price").doc(localStorage.getItem("province").toString()).set({
                 arr_selling: [],
-                price_data: { maize_corn: 0, sweet_corn: 0, baby_corn: 0 },
+                price_data: { avg_price : 0 },
                 province: localStorage.getItem("th_province")
             }).then(function () {
                 console.log("Document successfully written!");
