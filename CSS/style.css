@@ -20,6 +20,9 @@ a:link, a:visited {
 a:link:active, a:visited:active {
   color: (internal value);
 }
+a:hover {
+  color: #FFC300;
+}
 h1, div, li {
   font-family: 'Prompt', sans-serif;
 }
@@ -178,3 +181,6 @@ ul {
   cursor: pointer;
 }
 
+.col {
+  padding: 10px;
+}

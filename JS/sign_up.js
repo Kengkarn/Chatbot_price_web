@@ -109,9 +109,8 @@ function handleSignUp() {
         district: `${district}`,
         province: `${province}`,
         phone: `${phone}`,
-        // selling_place: new Array(selling1, selling2),
-        // corn_type: new Array(localStorage.getItem("maize")),
-        status: 0
+        status: 0,
+        check_first: 0
     }).then(function () {
         console.log("Document successfully written!");
         alert('การสมัครสำเร็จ!');

@@ -6,10 +6,18 @@ document.getElementById("date").innerHTML = d;
 db.collection('User').get().then((snapshot) => {
     snapshot.forEach(doc => {
         if (email === doc.data().email) {
+            th_province = doc.data().province;
+            if (th_province == "เพชรบูรณ์") {
+                localStorage.setItem("province", "Petchaboon");
+            }
+            else if (th_province == "น่าน") {
+                localStorage.setItem("province", "Narn");
+            }
+            else if (th_province == "พิษณุโลก") {
+                localStorage.setItem("province", "Pitsanuloak");
+            }
             localStorage.setItem("doc_id", doc.id);
             console.log(localStorage.getItem("doc_id"));
-            // localStorage.setItem("selling_place_len", doc.data().selling_place.length);
-            // localStorage.setItem("corn_type_len", doc.data().corn_type.length);
             console.log(doc.data().name);
             head_wel.innerHTML = "สวัสดีคุณ, " + doc.data().name;
             document.getElementById("name").value = doc.data().name;
@@ -19,87 +27,97 @@ db.collection('User').get().then((snapshot) => {
             document.getElementById("province").value = doc.data().province;
             document.getElementById("phone_num").value = doc.data().phone;
             var corn_type_div = document.querySelector('#corn_type_div');
+            var btn_send_price_div = document.querySelector('#btn_send_price_div');
             let output_corn_type = '';
             let count = 1;
-            for (var i = 0; i < doc.data().selling_place.length; i++) {
-                for (var j = 0; j < doc.data().corn_type.length; j++) {
-                    //กรณีที่มีประเภทข้าวโพด 3 ประเภท
-                    if (doc.data().corn_type.length === 3) {
-                        if (j === 0) {
-                            output_corn_type = `
+            if (doc.data().check_first == 1) {
+                localStorage.setItem("selling_place_len", doc.data().selling_place.length);
+                localStorage.setItem("corn_type_len", doc.data().corn_type.length);
+                for (var i = 0; i < doc.data().selling_place.length; i++) {
+                    for (var j = 0; j < doc.data().corn_type.length; j++) {
+                        //กรณีที่มีประเภทข้าวโพด 3 ประเภท
+                        if (doc.data().corn_type.length === 3) {
+                            if (j === 0) {
+                                output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
-                            count++;
-                        }
-                        else if (j === 1) {
-                            output_corn_type = `
+                                count++;
+                            }
+                            else if (j === 1) {
+                                output_corn_type = `
                             <label for="corn_type_name">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_2`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
-                            count++
-                        }
-                        else if (j === 2) {
-                            output_corn_type = `
+                                count++
+                            }
+                            else if (j === 2) {
+                                output_corn_type = `
                             <label for="corn_type_name">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_3`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
-                            count++
+                                count++
+                            }
                         }
-                    }
-                    //กรณีที่มีประเภทข้าวโพด 2 ประเภท
-                    else if (doc.data().corn_type.length === 2) {
-                        if (j === 0) {
-                            output_corn_type = `
+                        //กรณีที่มีประเภทข้าวโพด 2 ประเภท
+                        else if (doc.data().corn_type.length === 2) {
+                            if (j === 0) {
+                                output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
-                            count++;
-                        }
-                        else if (j === 1) {
-                            output_corn_type = `
+                                count++;
+                            }
+                            else if (j === 1) {
+                                output_corn_type = `
                             <label for="corn_type_name">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_2`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
-                            count++;
+                                count++;
+                            }
                         }
-                    }
-                    //กรณีที่มีประเภทข้าวโพด 1 ประเภท
-                    else if (doc.data().corn_type.length === 1) {
-                        if (j === 0 && doc.data().status === 0) {
-                            output_corn_type = `
+                        //กรณีที่มีประเภทข้าวโพด 1 ประเภท
+                        else if (doc.data().corn_type.length === 1) {
+                            if (j === 0 && doc.data().status === 0) {
+                                output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                         `;
-                            count++;
-                        }
-                        else if (j === 0 && doc.data().status !== 0) {
-                            output_corn_type = `
+                                count++;
+                            }
+                            else if (j === 0 && doc.data().status !== 0) {
+                                output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="` + doc.data().each_price[i] + `">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                             `;
-                            if (doc.data().selling_place.length - 1 === i) {
-                                output_corn_type += `
+                                if (doc.data().selling_place.length - 1 === i) {
+                                    output_corn_type += `
                                 <label for="show_date">วันที่อัปเดตล่าสุด: ${doc.data().date_update}</label><br>
                                 `;
+                                }
+                                count++;
                             }
-                            count++;
                         }
+                        btn_send_price_div.innerHTML = `<button onclick="send_price()" type="submit" class="btn btn-success">ส่งราคา</button>`;
+                        corn_type_div.innerHTML += output_corn_type;
                     }
-                    corn_type_div.innerHTML += output_corn_type;
                 }
             }
+            else if (doc.data().check_first == 0) {
+                console.log("ยังไม่ได้เพิ่มร้าน");
+            }
+
         }
     });
 })
@@ -177,20 +195,18 @@ function send_price() {
             var value_corn1 = document.getElementById(keep_param1).value;
             var value_corn1_num = parseFloat(value_corn1);
             sum_value1 += value_corn1_num;
-            if (len_selling == 2) {
-                array_price.push(value_corn1_num);
-            }
+            array_price.push(value_corn1_num);
         }
     }
     console.log(array_price);
     update_status.update({
         status: 1,
-        each_price: [array_price[0], array_price[1]],
+        each_price: array_price,
         date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
     }).then(function () {
         console.log("Document successfully updated!");
-        // alert("การเพิ่มข้อมูลสำเร็จ!");
-        // window.location.replace("home.html");
+        alert("การเพิ่มข้อมูลสำเร็จ!");
+        window.location.replace("home.html");
     })
         .catch(function (error) {
             // The document probably doesn't exist.
@@ -214,54 +230,97 @@ function send_price() {
     }
     else if (len_corn_type == 1) {
         console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
-        console.log("corn_type_1: " + sum_value1 / selling_place_num);
+        console.log("corn_type_1: " + sum_value1 / selling_place_num)
+        //กรณีที่เป็นข้าวโพดเลี้ยงสัตว์
+        db.collection("Price").doc(localStorage.getItem("province").toString()).update({
+            price_data: { maize_corn: (sum_value1 / selling_place_num) }
+        })
+
         // alert("การเพิ่มข้อมูลสำเร็จ!");
         // window.location.replace("home.html");
     }
+
 }
 
-function checkbox_corn_type() {
-    var checkBox_maize = document.getElementById("maize_corn");
-    var checkBox_sweet = document.getElementById("sweet_corn");
-    var checkBox_baby = document.getElementById("baby_corn");
-    var checked_box = 0;
-    localStorage.setItem("checked_box", checked_box);
-    console.log(localStorage.getItem("checked_box"));
-    console.log("checkBox_maize "+ checkBox_maize.checked);
-    console.log("check_sweet "+ checkBox_sweet.checked);
-    console.log("check_baby "+ checkBox_baby.checked);
-    if (checkBox_maize.checked == true) {
-        console.log("check_maize");
-        localStorage.setItem("maize", "ข้าวโพดเลี้ยงสัตว์");
-        checked_box = parseInt(localStorage.getItem("checked_box")) + 1;
-        console.log("เข้าเงื่อนไขข้าวโพดเลี้ยงสัตว์: "+ checked_box);
-        localStorage.setItem("checked_box", checked_box);
+function add_store_2db(name) {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the button that opens the modal
+    var btn = document.getElementsByClassName("close")[0];
+    btn.onclick = function () {
+        modal.style.display = "none";
     }
-    if (checkBox_sweet.checked == true) {
-        console.log("check_sweet");
-        localStorage.setItem("sweet", "ข้าวโพดหวาน");
-        checked_box = localStorage.getItem("checked_box") + 1;
-        localStorage.setItem("checked_box", checked_box);
-    }
-    if (checkBox_baby.checked == true) {
-        console.log("check_baby");
-        localStorage.setItem("baby", "ข้าวโพดฝักอ่อน");
-        checked_box = localStorage.getItem("checked_box") + 1;
-        localStorage.setItem("checked_box", checked_box++);
-    }
-}
-
-function send_test() {
-    var selling1 = document.getElementById("selling_1").value;
     var db = firebase.firestore();
+    var user_doc_id = db.collection('User').doc(localStorage.getItem("doc_id").toString());
+    var name_selling = document.getElementById("selling_name").value;
     const arrayUnion = firebase.firestore.FieldValue.arrayUnion;
-    db.collection("User").doc(localStorage.getItem("doc_id").toString()).update({
-        selling_place: arrayUnion(selling1)
+    const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+    let values = [];
+    let check_1 = [];
+    checkboxes.forEach((checkbox) => {
+        values.push(checkbox.value);
+    });
+    console.log(values);
+    user_doc_id.get().then((snapshot) => {
+        if (snapshot.data().check_first == 0) {
+            check_1.push(0)
+        }
     }).then(function () {
-        console.log("Document successfully written!");
-        alert('การสมัครสำเร็จ!');
+        if (check_1[0] == 0) {
+            db.collection("Price").doc(localStorage.getItem("province").toString()).set({
+                arr_selling: [],
+                price_data: { maize_corn: 0, sweet_corn: 0, baby_corn: 0 },
+            }).then(function () {
+                console.log("Document successfully written!");
+            })
+                .catch(function (error) {
+                    console.error("Error writing document: ", error);
+                });
+        }
     })
-        .catch(function (error) {
-            console.error("Error writing document: ", error);
-        });
+    user_doc_id.get().then((snapshot) => {
+        th_province = snapshot.data().province;
+        if (th_province == "เพชรบูรณ์") {
+            localStorage.setItem("province", "Petchaboon");
+        }
+        else if (th_province == "น่าน") {
+            localStorage.setItem("province", "Narn");
+        }
+        else if (th_province == "พิษณุโลก") {
+            localStorage.setItem("province", "Pitsanuloak");
+        }
+
+
+    }).then(function () {
+        user_doc_id.update({
+            check_first: 1,
+            date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+        }).then(function () {
+            console.log("Document successfully updated!");
+            console.log(localStorage.getItem("province"));
+            db.collection("Price").doc(localStorage.getItem("province").toString()).update({
+                arr_selling: arrayUnion(name_selling),
+                corn_type: values
+            }).then(function () {
+                console.log("Document successfully updated!");
+                user_doc_id.update({
+                    selling_place: arrayUnion(name_selling),
+                    corn_type: values
+                }).then(function () {
+                    alert("การเพิ่มร้านสำเร็จ!");
+                    window.location.replace("home.html");
+                })
+            }).catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+        })
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+
+    })
+
+
 }
