@@ -16,6 +16,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Bootstrap -->
     <!-- CSS -->
     <link href="CSS/style.css" rel="stylesheet" />
@@ -88,18 +92,22 @@
                                         </tr>
                                         <tr>
                                             <td><label for="corn_type_name">ประเภทข้าวโพด : </label></td>
-                                            <td  class="col" align="left" id="corn_type">
-                                                <input type="checkbox" name="corn" value="ข้าวโพดเลี้ยงสัตว์">
-                                                ข้าวโพดเลี้ยงสัตว์&nbsp;&nbsp;
-                                                <input type="checkbox" name="corn" value="ข้าวโพดหวาน">
-                                                ข้าวโพดหวาน&nbsp;&nbsp;
-                                                <input type="checkbox" name="corn" value="ข้าวโพดฝักอ่อน">
-                                                ข้าวโพดฝักอ่อน</td>
+                                            <td class="col" align="left" id="corn_type">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="corn" value="ข้าวโพดเลี้ยงสัตว์">
+                                                    ข้าวโพดเลี้ยงสัตว์</label>&nbsp;&nbsp;<label
+                                                    class="form-check-label">
+                                                    <input type="checkbox" name="corn" value="ข้าวโพดหวาน">
+                                                    ข้าวโพดหวาน</label>&nbsp;&nbsp;<label class="form-check-label">
+                                                    <input type="checkbox" name="corn" value="ข้าวโพดฝักอ่อน">
+                                                    ข้าวโพดฝักอ่อน</label>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
                                 <div class="btn_container" style="text-align: center; padding: 2% 2% 0% 2%;">
-                                    <button onclick="add_store_2db('corn')" type="submit" class="btn btn-success" id="btn_success">ตกลง</button>
+                                    <button onclick="add_store_2db('corn')" type="submit" class="btn btn-success"
+                                        id="btn_success">ตกลง</button>
                                 </div>
                             </center>
                         </div>
