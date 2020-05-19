@@ -114,10 +114,8 @@ function handleSignUp() {
     }).then(function () {
         console.log("Document successfully written!");
         alert('การสมัครสำเร็จ!');
+    }).then(function () {
         window.location.replace("index.html");
     })
-        .catch(function (error) {
-            console.error("Error writing document: ", error);
-        });
 }
 

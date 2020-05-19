@@ -130,7 +130,7 @@ db.collection('User').get().then((snapshot) => {
                                 output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
-                            <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="` + doc.data().each_price[i] + `">
+                            <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="` + doc.data().each_price[i].toFixed(2) + `" min="0" step="0.1">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                             `;
                                 if (doc.data().selling_place.length - 1 === i) {
@@ -225,52 +225,96 @@ function send_price() {
             var keep_param1 = "corn_type_1" + count;
             count++;
             var value_corn1 = document.getElementById(keep_param1).value;
-            var value_corn1_num = parseFloat(value_corn1);
+            var value_corn1_num = parseFloat((Math.round(parseFloat(value_corn1) * 100) / 100).toFixed(2));
             sum_value1 += value_corn1_num;
             array_price.push(value_corn1_num);
         }
     }
     console.log(array_price);
-    update_status.update({
-        status: 1,
-        each_price: array_price,
-        date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+    var selling_arr = new Array();
+    var corn_type_arr = new Array();
+    update_status.get().then((snapshot) => {
+        selling_arr = snapshot.data().selling_place;
+        corn_type_arr = snapshot.data().corn_type;
+        console.log(snapshot.data().selling_place);
+        console.log(snapshot.data().corn_type);
     }).then(function () {
-        console.log("Document successfully updated!");
-        alert("การเพิ่มข้อมูลสำเร็จ!");
-        window.location.replace("home.html");
-    })
-        .catch(function (error) {
-            // The document probably doesn't exist.
-            console.error("Error updating document: ", error);
-        });
-    var selling_place_num = parseFloat(len_selling);
-    if (len_corn_type == 3) {
-        console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
-        console.log("corn_type_1: " + sum_value1 / selling_place_num);
-        console.log("corn_type_2: " + sum_value2 / selling_place_num);
-        console.log("corn_type_3: " + sum_value3 / selling_place_num);
-        alert("การเพิ่มข้อมูลสำเร็จ!");
-        window.location.replace("home.html");
-    }
-    else if (len_corn_type == 2) {
-        console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
-        console.log("corn_type_1: " + sum_value1 / selling_place_num);
-        console.log("corn_type_2: " + sum_value2 / selling_place_num);
-        alert("การเพิ่มข้อมูลสำเร็จ!");
-        window.location.replace("home.html");
-    }
-    else if (len_corn_type == 1) {
-        console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
-        console.log("corn_type_1: " + sum_value1 / selling_place_num)
-        //กรณีที่เป็นข้าวโพด 1 ประเภท
-        db.collection("Price").doc(localStorage.getItem("province").toString()).update({
-            price_data: { avg_price: (sum_value1 / selling_place_num) }
+        console.log(selling_arr);
+        console.log(corn_type_arr);
+        var selling_place_num = parseFloat(len_selling);
+        if (len_corn_type == 3) {
+            console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+            console.log("corn_type_1: " + sum_value1 / selling_place_num);
+            console.log("corn_type_2: " + sum_value2 / selling_place_num);
+            console.log("corn_type_3: " + sum_value3 / selling_place_num);
+            alert("การเพิ่มข้อมูลสำเร็จ!");
+            window.location.replace("home.html");
+        }
+        else if (len_corn_type == 2) {
+            console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+            console.log("corn_type_1: " + sum_value1 / selling_place_num);
+            console.log("corn_type_2: " + sum_value2 / selling_place_num);
+            alert("การเพิ่มข้อมูลสำเร็จ!");
+            window.location.replace("home.html");
+        }
+        else if (len_corn_type == 1) {
+            console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+            console.log("corn_type_1: " + sum_value1 / selling_place_num)
+            //กรณีที่เป็นข้าวโพด 1 ประเภท
+            db.collection("Price").doc(localStorage.getItem("province").toString()).update({
+                arr_selling: selling_arr,
+                corn_type: corn_type_arr,
+                price_data: { avg_price: (sum_value1 / selling_place_num) },
+                each_price: array_price,
+                date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+            })
+            // alert("การเพิ่มข้อมูลสำเร็จ!");
+            // window.location.replace("home.html");
+        }
+        update_status.update({
+            status: 1,
+            each_price: array_price,
+            date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+        }).then(function () {
+            console.log("Document successfully updated!");
+            alert("การเพิ่มข้อมูลสำเร็จ!");
+            window.location.replace("home.html");
         })
-
-        // alert("การเพิ่มข้อมูลสำเร็จ!");
-        // window.location.replace("home.html");
-    }
+            .catch(function (error) {
+                // The document probably doesn't exist.
+                console.error("Error updating document: ", error);
+            });
+    })
+    // console.log(selling_arr);
+    // console.log(corn_type_arr);
+    // var selling_place_num = parseFloat(len_selling);
+    // if (len_corn_type == 3) {
+    //     console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+    //     console.log("corn_type_1: " + sum_value1 / selling_place_num);
+    //     console.log("corn_type_2: " + sum_value2 / selling_place_num);
+    //     console.log("corn_type_3: " + sum_value3 / selling_place_num);
+    //     alert("การเพิ่มข้อมูลสำเร็จ!");
+    //     window.location.replace("home.html");
+    // }
+    // else if (len_corn_type == 2) {
+    //     console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+    //     console.log("corn_type_1: " + sum_value1 / selling_place_num);
+    //     console.log("corn_type_2: " + sum_value2 / selling_place_num);
+    //     alert("การเพิ่มข้อมูลสำเร็จ!");
+    //     window.location.replace("home.html");
+    // }
+    // else if (len_corn_type == 1) {
+    //     console.log("Date update: " + `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+    //     console.log("corn_type_1: " + sum_value1 / selling_place_num)
+    //     //กรณีที่เป็นข้าวโพด 1 ประเภท
+    //     db.collection("Price").doc(localStorage.getItem("province").toString()).update({
+    //         arr_selling: selling_arr,
+    //         corn_type: corn_type_arr,
+    //         price_data: { avg_price: (sum_value1 / selling_place_num) }
+    //     })
+    //     // alert("การเพิ่มข้อมูลสำเร็จ!");
+    //     // window.location.replace("home.html");
+    // }
 
 }
 
