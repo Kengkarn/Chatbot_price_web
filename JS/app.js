@@ -127,12 +127,23 @@ db.collection('User').get().then((snapshot) => {
                                 count++;
                             }
                             else if (j === 0 && doc.data().status !== 0) {
-                                output_corn_type = `
+                                if (doc.data().each_price[i] != null) {
+                                    output_corn_type = `
                             <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
                             <label for="corn_type">${doc.data().corn_type[j]}:</label> 
                             <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="` + doc.data().each_price[i].toFixed(2) + `" min="0" step="0.1">
                             <label for="unit">บาท/กิโลกรัม</label><br>
                             `;
+                                }
+                                else if (doc.data().each_price[i] == null) {
+                                    output_corn_type = `
+                            <label for="selling_place"><b>${doc.data().selling_place[i]}</b></label><br>
+                            <label for="corn_type">${doc.data().corn_type[j]}:</label> 
+                            <input type="number" id="corn_type_1`+ count + `" placeholder="กรุณากรอกราคา" value="` + doc.data().each_price[i] + `" min="0" step="0.1">
+                            <label for="unit">บาท/กิโลกรัม</label><br>
+                            `;
+                                }
+
                                 if (doc.data().selling_place.length - 1 === i) {
                                     output_corn_type += `
                                 <label for="show_date">วันที่อัปเดตล่าสุด: ${doc.data().date_update}</label><br>
@@ -264,7 +275,7 @@ function send_price() {
             db.collection("Price").doc(localStorage.getItem("province").toString()).update({
                 arr_selling: selling_arr,
                 corn_type: corn_type_arr,
-                price_data: { avg_price: (sum_value1 / selling_place_num) },
+                price_data: { avg_price: parseFloat((Math.round(parseFloat((sum_value1 / selling_place_num)) * 100) / 100).toFixed(2)) },
                 each_price: array_price,
                 date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
             })
@@ -323,9 +334,7 @@ function add_store_2db(name) {
     var modal = document.getElementById("myModal");
     // Get the button that opens the modal
     var btn = document.getElementsByClassName("close")[0];
-    btn.onclick = function () {
-        modal.style.display = "none";
-    }
+
     var db = firebase.firestore();
     var user_doc_id = db.collection('User').doc(localStorage.getItem("doc_id").toString());
     var name_selling = document.getElementById("selling_name").value;
@@ -359,9 +368,14 @@ function add_store_2db(name) {
         }
 
     }).then(function () {
+        btn.onclick = function () {
+            modal.style.display = "none";
+        }
         user_doc_id.update({
             check_first: 1,
-            date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+            date_update: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
+            selling_place: arrayUnion(name_selling),
+            corn_type: values
         }).then(function () {
             console.log("Document successfully updated!");
             console.log(localStorage.getItem("province"));
@@ -369,18 +383,9 @@ function add_store_2db(name) {
                 arr_selling: arrayUnion(name_selling),
                 corn_type: values
             }).then(function () {
-                console.log("Document successfully updated!");
-                user_doc_id.update({
-                    selling_place: arrayUnion(name_selling),
-                    corn_type: values
-                }).then(function () {
-                    alert("การเพิ่มร้านสำเร็จ!");
-                    window.location.replace("home.html");
-                })
-            }).catch(function (error) {
-                // The document probably doesn't exist.
-                console.error("Error updating document: ", error);
-            });
+                // alert("การเพิ่มร้านสำเร็จ!");
+                window.location.replace("home.html");
+            })
         })
             .catch(function (error) {
                 // The document probably doesn't exist.
